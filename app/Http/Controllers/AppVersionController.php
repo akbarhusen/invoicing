@@ -24,6 +24,7 @@ class AppVersionController extends Controller
 
     public function copyrights() {
         return response()->json([
+            'languages' => config('crater.languages'),
             'app_name' => env('APP_NAME'),
             'year' => date('Y')
         ]);

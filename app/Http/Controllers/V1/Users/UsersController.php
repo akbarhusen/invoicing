@@ -8,6 +8,7 @@ use Crater\Models\CompanySetting;
 use Crater\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Crater\Models\UserCompany;
 
 class UsersController extends Controller
 {
@@ -53,6 +54,15 @@ class UsersController extends Controller
         $data['creator_id'] = Auth::id();
         $user = User::create($data);
 
+        if(!empty($request->companies)) {
+            foreach($request->companies as $company_id) {
+                $userCompany = new UserCompany();
+                $userCompany->user_id = $user->id;
+                $userCompany->company_id = $company_id;
+                $userCompany->save();
+            }
+        }
+        
         $user->setSettings([
             'language' => CompanySetting::getSetting('language', $user->company_id),
         ]);
@@ -72,7 +82,7 @@ class UsersController extends Controller
     public function show(User $user)
     {
         return response()->json([
-            'user' => $user,
+            'user' => $user->load('user_companies'),
             'success' => true,
         ]);
     }
@@ -87,6 +97,15 @@ class UsersController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $user->update($request->validated());
+        UserCompany::where('user_id', $user->id)->delete();
+        if(!empty($request->companies)) {
+            foreach($request->companies as $company_id) {
+                $userCompany = new UserCompany();
+                $userCompany->user_id = $user->id;
+                $userCompany->company_id = $company_id;
+                $userCompany->save();
+            }
+        }
 
         return response()->json([
             'user' => $user,

@@ -26,6 +26,9 @@ class DefaultSettingsSeeder extends Seeder
         $paymentFromCustomerAddress = '<h3>{BILLING_ADDRESS_NAME}</h3><p>{BILLING_ADDRESS_STREET_1}</p><p>{BILLING_ADDRESS_STREET_2}</p><p>{BILLING_CITY} {BILLING_STATE} {BILLING_ZIP_CODE}</p><p>{BILLING_COUNTRY}</p><p>{BILLING_PHONE}</p>';
 
         $settings = [
+            'domain' => 'invocing.com',
+            'email' => 'info@invocing.com',
+            'address' => 'Australia',
             'invoice_auto_generate' => 'YES',
             'payment_auto_generate' => 'YES',
             'estimate_auto_generate' => 'YES',
@@ -45,8 +48,8 @@ class DefaultSettingsSeeder extends Seeder
             'time_zone' => 'Asia/Kolkata',
             'language' => 'en',
             'fiscal_year' => '1-12',
-            'carbon_date_format' => 'Y/m/d',
-            'moment_date_format' => 'YYYY/MM/DD',
+            'carbon_date_format' => 'd M Y',
+            'moment_date_format' => 'DD MMM YYYY',
             'notification_email' => 'noreply@crater.in',
             'notify_invoice_viewed' => 'NO',
             'notify_estimate_viewed' => 'NO',

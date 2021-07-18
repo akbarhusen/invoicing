@@ -23,6 +23,11 @@ import NotFoundPage from './views/errors/404.vue'
 // Dashbord
 import Dashboard from './views/dashboard/Dashboard.vue'
 
+// Items
+import CompanyIndex from './views/companies/Index.vue'
+import CompanyCreate from './views/companies/Create.vue'
+import CompanyEdit from './views/companies/Edit.vue'
+
 // Customers
 import CustomerIndex from './views/customers/Index.vue'
 import CustomerCreate from './views/customers/Create.vue'
@@ -83,335 +88,346 @@ import Wizard from './views/wizard/Wizard.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  /*
-   |--------------------------------------------------------------------------
-   | Auth & Registration
-   |--------------------------------------------------------------------------|
-   */
+    /*
+     |--------------------------------------------------------------------------
+     | Auth & Registration
+     |--------------------------------------------------------------------------|
+     */
 
-  {
-    path: '/',
-    component: LayoutLogin,
-    meta: { redirectIfAuthenticated: true },
-    children: [
-      {
+    {
         path: '/',
-        component: Login,
-      },
-      {
-        path: 'login',
-        component: Login,
-        name: 'login',
-      },
-      {
-        path: '/forgot-password',
-        component: ForgotPassword,
-        name: 'forgot-password',
-      },
-      {
-        path: '/reset-password/:token',
-        component: ResetPassword,
-        name: 'reset-password',
-      },
-      {
-        path: 'register',
-        component: Register,
-        name: 'register',
-      },
-    ],
-  },
-
-  /*
-   |--------------------------------------------------------------------------
-   | Onboarding
-   |--------------------------------------------------------------------------|
-   */
-  {
-    path: '/on-boarding',
-    component: LayoutWizard,
-    children: [
-      {
-        path: '/',
-        component: Wizard,
-        name: 'wizard',
-      },
-    ],
-  },
-
-  /*
-   |--------------------------------------------------------------------------
-   | Admin
-   |--------------------------------------------------------------------------|
-   */
-  {
-    path: '/admin',
-    component: LayoutBasic,
-    meta: { requiresAuth: true },
-    children: [
-      // Dashboard
-      {
-        path: '/',
-        component: Dashboard,
-        name: 'dashboard',
-      },
-      {
-        path: 'dashboard',
-        component: Dashboard,
-      },
-
-      // Customers
-      {
-        path: 'customers',
-        component: CustomerIndex,
-      },
-      {
-        path: 'customers/create',
-        name: 'customers.create',
-        component: CustomerCreate,
-      },
-      {
-        path: 'customers/:id/edit',
-        name: 'customers.edit',
-        component: CustomerCreate,
-      },
-      {
-        path: 'customers/:id/view',
-        name: 'customers.view',
-        component: CustomerView,
-      },
-
-      // Items
-      {
-        path: 'items',
-        component: ItemsIndex,
-      },
-      {
-        path: 'items/create',
-        name: 'items.create',
-        component: ItemCreate,
-      },
-      {
-        path: 'items/:id/edit',
-        name: 'items.edit',
-        component: ItemCreate,
-      },
-
-      // Estimates
-      {
-        path: 'estimates',
-        name: 'estimates.index',
-        component: EstimateIndex,
-      },
-      {
-        path: 'estimates/create',
-        name: 'estimates.create',
-        component: EstimateCreate,
-      },
-      {
-        path: 'estimates/:id/view',
-        name: 'estimates.view',
-        component: EstimateView,
-      },
-      {
-        path: 'estimates/:id/edit',
-        name: 'estimates.edit',
-        component: EstimateCreate,
-      },
-
-      // Invoices
-      {
-        path: 'invoices',
-        name: 'invoices.index',
-        component: InvoiceIndex,
-      },
-      {
-        path: 'invoices/create',
-        name: 'invoices.create',
-        component: InvoiceCreate,
-      },
-      {
-        path: 'invoices/:id/view',
-        name: 'invoices.view',
-        component: InvoiceView,
-      },
-      {
-        path: 'invoices/:id/edit',
-        name: 'invoices.edit',
-        component: InvoiceCreate,
-      },
-
-      // Payments
-      {
-        path: 'payments',
-        name: 'payments.index',
-        component: PaymentsIndex,
-      },
-      {
-        path: 'payments/create',
-        name: 'payments.create',
-        component: PaymentCreate,
-      },
-      {
-        path: 'payments/:id/create',
-        name: 'invoice.payments.create',
-        component: PaymentCreate,
-      },
-      {
-        path: 'payments/:id/edit',
-        name: 'payments.edit',
-        component: PaymentCreate,
-      },
-      {
-        path: 'payments/:id/view',
-        name: 'payments.view',
-        component: PaymentView,
-      },
-
-      // Expenses
-      {
-        path: 'expenses',
-        component: ExpensesIndex,
-      },
-      {
-        path: 'expenses/create',
-        name: 'expenses.create',
-        component: ExpenseCreate,
-      },
-      {
-        path: 'expenses/:id/edit',
-        name: 'expenses.edit',
-        component: ExpenseCreate,
-      },
-
-      // User
-      {
-        path: 'users',
-        component: UserIndex,
-      },
-      {
-        path: 'users/create',
-        name: 'users.create',
-        component: UserCreate,
-      },
-      {
-        path: 'users/:id/edit',
-        name: 'users.edit',
-        component: UserCreate,
-      },
-
-      // Reports
-      {
-        path: 'reports',
-        component: ReportLayout,
-        children: [
-          {
-            path: 'sales',
-            component: SalesReports,
-          },
-          {
-            path: 'expenses',
-            component: ExpensesReport,
-          },
-          {
-            path: 'profit-loss',
-            component: ProfitLossReport,
-          },
-          {
-            path: 'taxes',
-            component: TaxReport,
-          },
+        component: LayoutLogin,
+        meta: { redirectIfAuthenticated: true },
+        children: [{
+                path: '/',
+                component: Login,
+            },
+            {
+                path: 'login',
+                component: Login,
+                name: 'login',
+            },
+            {
+                path: '/forgot-password',
+                component: ForgotPassword,
+                name: 'forgot-password',
+            },
+            {
+                path: '/reset-password/:token',
+                component: ResetPassword,
+                name: 'reset-password',
+            },
+            {
+                path: 'register',
+                component: Register,
+                name: 'register',
+            },
         ],
-      },
+    },
 
-      // Settings
-      {
-        path: 'settings',
-        component: SettingsLayout,
+    /*
+     |--------------------------------------------------------------------------
+     | Onboarding
+     |--------------------------------------------------------------------------|
+     */
+    {
+        path: '/on-boarding',
+        component: LayoutWizard,
+        children: [{
+            path: '/',
+            component: Wizard,
+            name: 'wizard',
+        }, ],
+    },
+
+    /*
+     |--------------------------------------------------------------------------
+     | Admin
+     |--------------------------------------------------------------------------|
+     */
+    {
+        path: '/admin',
+        component: LayoutBasic,
+        meta: { requiresAuth: true },
         children: [
-          {
-            path: 'company-info',
-            name: 'company.info',
-            component: CompanyInfo,
-          },
-          {
-            path: 'customization',
-            name: 'customization',
-            component: Customization,
-          },
-          {
-            path: 'payment-mode',
-            name: 'payment.mode',
-            component: PaymentMode,
-          },
+            // Dashboard
+            {
+                path: '/',
+                component: Dashboard,
+                name: 'dashboard',
+            },
+            {
+                path: 'dashboard',
+                component: Dashboard,
+            },
 
-          {
-            path: 'custom-fields',
-            name: 'custom.fields',
-            component: CustomFieldsIndex,
-          },
-          {
-            path: 'user-profile',
-            name: 'user.profile',
-            component: UserProfile,
-          },
-          {
-            path: 'preferences',
-            name: 'preferences',
-            component: Preferences,
-          },
-          {
-            path: 'tax-types',
-            name: 'tax.types',
-            component: TaxTypes,
-          },
-          {
-            path: 'notes',
-            name: 'notes',
-            component: NotesSetting,
-          },
-          {
-            path: 'expense-category',
-            name: 'expense.category',
-            component: ExpenseCategory,
-          },
-          {
-            path: 'mail-configuration',
-            name: 'mailconfig',
-            component: MailConfig,
-          },
-          {
-            path: 'notifications',
-            name: 'notifications',
-            component: Notifications,
-          },
-          {
-            path: 'update-app',
-            name: 'updateapp',
-            component: UpdateApp,
-          },
-          {
-            path: 'backup',
-            name: 'backup',
-            component: Backup,
-          },
-          {
-            path: 'file-disk',
-            name: 'file-disk',
-            component: FileDisk,
-          },
+            // Companies
+            {
+                path: 'companies',
+                component: CompanyIndex,
+            },
+            {
+                path: 'companies/create',
+                name: 'companies.create',
+                component: CompanyCreate,
+            },
+            {
+                path: 'companies/:id/edit',
+                name: 'companies.edit',
+                component: CompanyCreate,
+            },
+
+            // Customers
+            {
+                path: 'customers',
+                component: CustomerIndex,
+            },
+            {
+                path: 'customers/create',
+                name: 'customers.create',
+                component: CustomerCreate,
+            },
+            {
+                path: 'customers/:id/edit',
+                name: 'customers.edit',
+                component: CustomerCreate,
+            },
+            {
+                path: 'customers/:id/view',
+                name: 'customers.view',
+                component: CustomerView,
+            },
+
+            // Items
+            {
+                path: 'items',
+                component: ItemsIndex,
+            },
+            {
+                path: 'items/create',
+                name: 'items.create',
+                component: ItemCreate,
+            },
+            {
+                path: 'items/:id/edit',
+                name: 'items.edit',
+                component: ItemCreate,
+            },
+
+            // Estimates
+            {
+                path: 'estimates',
+                name: 'estimates.index',
+                component: EstimateIndex,
+            },
+            {
+                path: 'estimates/create',
+                name: 'estimates.create',
+                component: EstimateCreate,
+            },
+            {
+                path: 'estimates/:id/view',
+                name: 'estimates.view',
+                component: EstimateView,
+            },
+            {
+                path: 'estimates/:id/edit',
+                name: 'estimates.edit',
+                component: EstimateCreate,
+            },
+
+            // Invoices
+            {
+                path: 'invoices',
+                name: 'invoices.index',
+                component: InvoiceIndex,
+            },
+            {
+                path: 'invoices/create',
+                name: 'invoices.create',
+                component: InvoiceCreate,
+            },
+            {
+                path: 'invoices/:id/view',
+                name: 'invoices.view',
+                component: InvoiceView,
+            },
+            {
+                path: 'invoices/:id/edit',
+                name: 'invoices.edit',
+                component: InvoiceCreate,
+            },
+
+            // Payments
+            {
+                path: 'payments',
+                name: 'payments.index',
+                component: PaymentsIndex,
+            },
+            {
+                path: 'payments/create',
+                name: 'payments.create',
+                component: PaymentCreate,
+            },
+            {
+                path: 'payments/:id/create',
+                name: 'invoice.payments.create',
+                component: PaymentCreate,
+            },
+            {
+                path: 'payments/:id/edit',
+                name: 'payments.edit',
+                component: PaymentCreate,
+            },
+            {
+                path: 'payments/:id/view',
+                name: 'payments.view',
+                component: PaymentView,
+            },
+
+            // Expenses
+            {
+                path: 'expenses',
+                component: ExpensesIndex,
+            },
+            {
+                path: 'expenses/create',
+                name: 'expenses.create',
+                component: ExpenseCreate,
+            },
+            {
+                path: 'expenses/:id/edit',
+                name: 'expenses.edit',
+                component: ExpenseCreate,
+            },
+
+            // User
+            {
+                path: 'users',
+                component: UserIndex,
+            },
+            {
+                path: 'users/create',
+                name: 'users.create',
+                component: UserCreate,
+            },
+            {
+                path: 'users/:id/edit',
+                name: 'users.edit',
+                component: UserCreate,
+            },
+
+            // Reports
+            {
+                path: 'reports',
+                component: ReportLayout,
+                children: [{
+                        path: 'sales',
+                        component: SalesReports,
+                    },
+                    {
+                        path: 'expenses',
+                        component: ExpensesReport,
+                    },
+                    {
+                        path: 'profit-loss',
+                        component: ProfitLossReport,
+                    },
+                    {
+                        path: 'taxes',
+                        component: TaxReport,
+                    },
+                ],
+            },
+
+            // Settings
+            {
+                path: 'settings',
+                component: SettingsLayout,
+                children: [{
+                        path: 'company-info',
+                        name: 'company.info',
+                        component: CompanyInfo,
+                    },
+                    {
+                        path: 'customization',
+                        name: 'customization',
+                        component: Customization,
+                    },
+                    {
+                        path: 'payment-mode',
+                        name: 'payment.mode',
+                        component: PaymentMode,
+                    },
+
+                    {
+                        path: 'custom-fields',
+                        name: 'custom.fields',
+                        component: CustomFieldsIndex,
+                    },
+                    {
+                        path: 'user-profile',
+                        name: 'user.profile',
+                        component: UserProfile,
+                    },
+                    {
+                        path: 'preferences',
+                        name: 'preferences',
+                        component: Preferences,
+                    },
+                    {
+                        path: 'tax-types',
+                        name: 'tax.types',
+                        component: TaxTypes,
+                    },
+                    {
+                        path: 'notes',
+                        name: 'notes',
+                        component: NotesSetting,
+                    },
+                    {
+                        path: 'expense-category',
+                        name: 'expense.category',
+                        component: ExpenseCategory,
+                    },
+                    {
+                        path: 'mail-configuration',
+                        name: 'mailconfig',
+                        component: MailConfig,
+                    },
+                    {
+                        path: 'notifications',
+                        name: 'notifications',
+                        component: Notifications,
+                    },
+                    {
+                        path: 'update-app',
+                        name: 'updateapp',
+                        component: UpdateApp,
+                    },
+                    {
+                        path: 'backup',
+                        name: 'backup',
+                        component: Backup,
+                    },
+                    {
+                        path: 'file-disk',
+                        name: 'file-disk',
+                        component: FileDisk,
+                    },
+                ],
+            },
         ],
-      },
-    ],
-  },
+    },
 
-  //  DEFAULT ROUTE
-  { path: '*', component: NotFoundPage },
+    //  DEFAULT ROUTE
+    { path: '*', component: NotFoundPage },
 ]
 
 const router = new VueRouter({
-  routes,
-  mode: 'history',
-  linkActiveClass: 'active',
+    routes,
+    mode: 'history',
+    linkActiveClass: 'active',
 })
 
 export default router

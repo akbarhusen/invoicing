@@ -2,19 +2,19 @@
   <div class="grid h-full grid-cols-12 overflow-y-hidden bg-gray-100">
     <base-notification />
     <div
-      class="flex items-center justify-center w-full max-w-sm col-span-12 p-4 mx-auto text-gray-900 md:p-8 md:col-span-6 lg:col-span-4 flex-2 md:pb-48 md:pt-40"
+      class="flex items-center justify-center w-full max-w-sm col-span-12 p-4 mx-auto text-gray-900 md:p-8 md:col-span-6 lg:col-span-4 flex-2 md:pb-10 md:pt-10"
     >
       <div class="w-full">
         <a href="/admin">
           <img
-            src="/assets/img/crater-logo.png"
-            class="block w-48 h-auto max-w-full mb-32 text-primary-400"
-            alt="Crater Logo"
+            :src="appLogo"
+            class="block w-48 h-auto max-w-full mb-12 text-primary-400"
+            :alt="appName"
           />
         </a>
         <router-view></router-view>
         <div v-if="copyrights"
-          class="pt-24 mt-0 text-sm not-italic font-medium leading-relaxed text-left text-gray-500 md:pt-10"
+          class="pt-14 mt-0 text-sm not-italic font-medium leading-relaxed text-left text-gray-500 md:pt-5"
         >
           <p class="mb-3">{{ 
             $t('layout_login.copyright_crater', {
@@ -55,10 +55,13 @@ export default {
   data() {
     return {
       copyrights: null,
+      appLogo: "/assets/img/crater-logo.png",
+      appName: "Invoicing App",
     }
   },
   created() {
     this.getcopyrights()
+    this.getAppLogo()
   },
   methods: {
     async getcopyrights() {
@@ -67,6 +70,15 @@ export default {
 
       if (response.data) {
         this.copyrights = response.data
+        this.appName = response.data.app_name
+      }
+    },
+    async getAppLogo() {
+
+      let response = await window.axios.get('/api/v1/app/app-logo')
+
+      if (response.data) {
+        this.appLogo = response.data.app_logo
       }
     },
   },

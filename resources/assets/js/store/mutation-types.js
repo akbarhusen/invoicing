@@ -8,6 +8,8 @@ export const SET_DATE_FORMATS = 'SET_DATE_FORMATS'
 
 export const SET_TIMEZONES = 'SET_TIMEZONES'
 
+export const SET_APPLOGO = 'SET_APPLOGO'
+
 export const SET_FISCAL_YEARS = 'SET_FISCAL_YEARS'
 
 export const SET_COUNTRIES = 'SET_COUNTRIES'

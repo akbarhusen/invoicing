@@ -31,52 +31,54 @@ import notification from './modules/notification'
 Vue.use(Vuex)
 
 const initialState = {
-  languages: [],
+    languages: [],
 
-  timeZones: [],
+    timeZones: [],
 
-  dateFormats: [],
+    dateFormats: [],
 
-  fiscalYears: [],
+    fiscalYears: [],
 
-  currencies: [],
+    currencies: [],
 
-  countries: [],
+    countries: [],
 
-  isAppLoaded: false,
+    isAppLoaded: false,
 
-  isSidebarOpen: false,
+    isSidebarOpen: false,
+
+    appLogo: '',
 }
 
 export default new Vuex.Store({
-  strict: true,
-  state: initialState,
-  getters,
-  mutations,
-  actions,
+    strict: true,
+    state: initialState,
+    getters,
+    mutations,
+    actions,
 
-  modules: {
-    auth,
-    user,
-    category,
-    company,
-    customer,
-    dashboard,
-    estimate,
-    item,
-    invoice,
-    expense,
-    modal,
-    customFields,
-    payment,
-    taxType,
-    users,
-    backup,
-    disks,
-    estimateTemplate,
-    invoiceTemplate,
-    search,
-    notes,
-    notification,
-  },
+    modules: {
+        auth,
+        user,
+        category,
+        company,
+        customer,
+        dashboard,
+        estimate,
+        item,
+        invoice,
+        expense,
+        modal,
+        customFields,
+        payment,
+        taxType,
+        users,
+        backup,
+        disks,
+        estimateTemplate,
+        invoiceTemplate,
+        search,
+        notes,
+        notification,
+    },
 })

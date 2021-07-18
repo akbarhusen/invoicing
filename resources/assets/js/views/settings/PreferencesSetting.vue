@@ -193,9 +193,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { CloudUploadIcon } from '@vue-hero-icons/solid'
 const { required } = require('vuelidate/lib/validators')
 
 export default {
+  components: {
+    CloudUploadIcon,
+  },
   data() {
     return {
       isLoading: false,
@@ -316,6 +320,8 @@ export default {
 
     ...mapActions('notification', ['showNotification']),
 
+    ...mapActions(['fetchAppLogo']),
+
     onUploadHandler(cropper) {
       this.previewLogo = cropper
         .getCroppedCanvas()
@@ -382,6 +388,16 @@ export default {
             dateFormat.carbon_format_value == response.data.carbon_date_format
         )
       }
+      let appLogoResponse = await this.fetchAppLogo()
+      if (
+        appLogoResponse.data &&
+        appLogoResponse.data.app_logo !== null &&
+        appLogoResponse.data.app_logo !== 0
+      ) {
+        this.previewLogo = appLogoResponse.data.app_logo
+      } else {
+        this.previewLogo = '/images/default-avatar.jpg'
+      }
 
       this.isRequestOnGoing = false
     },
@@ -419,6 +435,8 @@ export default {
             headers: {
               'Content-Type': 'multipart/form-data'
             },
+          }).then((res) => {
+            self.appLogo = res.data.app_logo
           })
         }
         this.isLoading = false

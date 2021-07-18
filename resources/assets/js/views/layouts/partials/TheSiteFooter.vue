@@ -5,8 +5,7 @@
     {{ $t('general.powered_by') }}
 
     <a
-      href="http://bytefury.com/"
-      target="_blank"
+      href=""
       class="pl-1 font-normal text-gray-900"
     >
       {{ $t('general.bytefury') }}

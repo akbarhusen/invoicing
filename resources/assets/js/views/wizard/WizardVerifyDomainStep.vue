@@ -111,13 +111,15 @@ export default {
 
       this.isLoading = true
       try {
+        await window.axios.get('/sanctum/csrf-cookie')
+        
         await window.axios.put('api/v1/onboarding/set-domain', this.formData)
 
         await window.axios.get('/sanctum/csrf-cookie')
 
-        let driverRes = await window.axios.post('/api/v1/onboarding/login')
+        await window.axios.post('/api/v1/onboarding/login')
 
-        //let driverRes = await window.axios.get('/api/v1/auth/check')
+        let driverRes = await window.axios.get('/api/v1/auth/check')
 
         if (driverRes.data) {
           await this.$emit('next', 4)

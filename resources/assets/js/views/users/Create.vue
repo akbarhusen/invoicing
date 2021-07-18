@@ -81,6 +81,20 @@
               />
             </sw-input-group>
 
+            <sw-input-group :label="$t('companies.title')" class="mt-4 mb-6">
+                
+
+                <div class="form-group form-check" v-for="(item, index) in allcompanies" v-bind:key="item.id">
+                    <label class="form-check-label" :for="item.id">
+                      <input type="checkbox" v-on:change="toggleCompany(item, $event)" v-bind:checked="isChecked(item, index)" :id="item.name" :value="item.id">
+                      {{item.name}}
+                    </label>
+                </div>
+            </sw-input-group>
+
+            
+            
+
             <div class="mt-6 mb-4">
               <sw-button
                 :loading="isLoading"
@@ -123,7 +137,12 @@ export default {
         email: null,
         password: null,
         phone: null,
+        companies: [],
       },
+      allcompanies: [],
+      checkedcompanies: [],
+      user: '',
+      companiesArray: [],
     }
   },
 
@@ -192,6 +211,15 @@ export default {
         )
       }
     },
+
+    // companiesError() {
+    //   if (!this.$v.formData.companies.$error) {
+    //     return ''
+    //   }
+    //   if (!this.$v.formData.companies.checked) {
+    //     return this.$t('validation.required')
+    //   }
+    // },
   },
 
   created() {
@@ -200,11 +228,13 @@ export default {
     }
     if (this.isEdit) {
       this.loadEditData()
+      this.formData.companies = this.companiesArray
     }
   },
 
   mounted() {
     this.$v.formData.$reset()
+    this.fetchCompanies();
   },
   validations: {
     formData: {
@@ -223,7 +253,9 @@ export default {
         }),
         minLength: minLength(8),
       },
+      
     },
+    
   },
 
   methods: {
@@ -237,9 +269,56 @@ export default {
       if (response.data) {
         this.formData = { ...this.formData, ...response.data.user }
       }
+
+      this.user = response.data.user;
+    },
+
+    async fetchCompanies() {
+      let response = await window.axios.get('/api/v1/companies/fetch-all')
+      this.allcompanies = response.data.companies
+    },
+
+    toggleCompany (item, e) {
+      var exists = this.companiesArray.some(function(field) {
+        return field === item.id
+      });
+
+      if(e.target.checked) {
+        if (!exists) {
+          this.companiesArray.push(item.id)
+        }
+      } else {
+        if (exists) {
+          this.companiesArray.push(item.id)
+        }
+      }
+    },
+
+    isChecked(item, index) {
+      if (this.isEdit) {
+        if(this.user.user_companies) {
+          for (var i=0; i<this.user.user_companies.length; i++){
+          
+          if (this.user.user_companies[i].company_id == item.id){
+
+            var exists = this.companiesArray.some(function(field) {
+                return field === item.id
+              });
+
+              if (!exists) {
+                this.companiesArray.push(item.id)
+              }
+                return true;
+          }
+        }
+        }
+      }
     },
 
     async submitUser() {
+
+      // this.formData.companies = this.checkedcompanies;
+
       this.$v.formData.$touch()
 
       if (this.$v.$invalid) {

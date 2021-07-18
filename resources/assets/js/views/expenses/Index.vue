@@ -35,13 +35,13 @@
     <!--Filter Wrapper -->
     <slide-y-up-transition>
       <sw-filter-wrapper v-show="showFilters" class="mt-3">
-        <sw-input-group :label="$t('expenses.customer')" class="flex-1 mt-3">
+        <!-- <sw-input-group :label="$t('expenses.customer')" class="flex-1 mt-3">
           <base-customer-select
             ref="customerSelect"
             @select="onSelectCustomer"
             @deselect="clearCustomerSearch"
           />
-        </sw-input-group>
+        </sw-input-group> -->
 
         <sw-input-group
           :label="$t('expenses.category')"
@@ -200,7 +200,7 @@
           </template>
         </sw-table-column>
 
-        <sw-table-column
+        <!-- <sw-table-column
           :sortable="true"
           :label="$t('expenses.customer')"
           sort-as="user_name"
@@ -212,9 +212,9 @@
               {{ row.user_name ? row.user_name : $t('expenses.not_selected') }}
             </span>
           </template>
-        </sw-table-column>
+        </sw-table-column> -->
 
-        <sw-table-column
+        <!-- <sw-table-column
           :sortable="true"
           :label="$t('expenses.note')"
           sort-as="expense_date"
@@ -225,7 +225,7 @@
               <div class="truncate note w-60">{{ row.notes }}</div>
             </div>
           </template>
-        </sw-table-column>
+        </sw-table-column> -->
 
         <sw-table-column
           :sortable="true"

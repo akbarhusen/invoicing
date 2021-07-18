@@ -98,7 +98,9 @@ Route::prefix('/v1')->group(function () {
 
     Route::get('/app/copyrights', [AppVersionController::class, 'copyrights']);
 
+    Route::post('/app/upload-logo', [OnboardingWizardController::class, 'uploadAppLogo']);
 
+    Route::get('/app/app-logo', [OnboardingWizardController::class, 'getAppLogo']);
     // Authentication & Password Reset
     //----------------------------------
 
@@ -225,6 +227,17 @@ Route::prefix('/v1')->group(function () {
 
         Route::resource('units', UnitsController::class);
 
+        // Company
+        //----------------------------------
+
+        Route::post('/companies/delete', [CompanyController::class, 'delete']);
+
+        Route::post('/companies/update-company-logo', [CompanyController::class, 'updateCompanyLogo']);
+
+        Route::get('/companies/fetch-all', [CompanyController::class, 'fetchAll']);
+        
+        Route::resource('companies', CompanyController::class);
+
 
         // Invoices
         //-------------------------------------------------
@@ -319,8 +332,6 @@ Route::prefix('/v1')->group(function () {
         Route::put('/company', [CompanyController::class, 'updateCompany']);
 
         Route::post('/company/upload-logo', [CompanyController::class, 'uploadCompanyLogo']);
-
-        Route::post('/app/upload-logo', [CompanyController::class, 'uploadAppLogo']);
 
         Route::get('/company/settings', GetCompanySettingsController::class);
 

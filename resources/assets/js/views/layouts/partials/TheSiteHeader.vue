@@ -107,6 +107,11 @@ import {
 import { LogoutIcon } from '@vue-hero-icons/outline'
 
 export default {
+  data() {
+    return {
+      appLogo: '/images/default-avatar.jpg',
+    }
+  },
   components: {
     PlusIcon,
     DocumentTextIcon,
@@ -130,26 +135,33 @@ export default {
       }
     },
 
-    appLogo() {
-      if (
-        this.currentUser &&
-        this.currentUser.app_logo !== null &&
-        this.currentUser.app_logo !== 0
-      ) {
-        return this.currentUser.app_logo
-      } else {
-        return '/images/default-avatar.jpg'
-      }
-    },
+    
   },
   created() {
     this.fetchCurrentUser()
+  },
+  async mounted() {
+    this.setInitialData()
   },
   methods: {
     ...mapActions('user', ['fetchCurrentUser']),
     ...mapActions('auth', ['logout']),
     ...mapActions('modal', ['openModal']),
     ...mapActions(['toggleSidebar']),
+    ...mapActions(['fetchAppLogo']),
+
+    async setInitialData() {
+      let appsettings = await this.fetchAppLogo()
+      if (
+          appsettings.data &&
+          appsettings.data.app_logo !== null &&
+          appsettings.data.app_logo !== 0
+        ) {
+          this.appLogo = appsettings.data.app_logo
+        } else {
+          this.appLogo = '/images/default-avatar.jpg'
+        }
+    },
   },
 }
 </script>

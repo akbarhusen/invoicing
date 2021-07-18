@@ -128,7 +128,7 @@
             />
           </sw-input-group>
 
-          <sw-input-group :label="$t('expenses.customer')">
+          <!-- <sw-input-group :label="$t('expenses.customer')">
             <sw-select
               ref="baseSelect"
               v-model="customer"
@@ -140,17 +140,17 @@
               label="name"
               track-by="id"
             />
-          </sw-input-group>
+          </sw-input-group> -->
 
-          <sw-input-group :label="$t('expenses.note')" :error="notesError">
+          <!-- <sw-input-group :label="$t('expenses.note')" :error="notesError">
             <sw-textarea
               v-model="formData.notes"
               rows="4"
               @input="$v.formData.notes.$touch()"
             />
-          </sw-input-group>
+          </sw-input-group> -->
 
-          <sw-input-group :label="$t('expenses.receipt')">
+          <sw-input-group :label="$t('expenses.receipt')" :error="receiptError">
             <div
               id="receipt-box"
               class="relative flex items-center justify-center h-24 p-6 bg-transparent border-2 border-gray-200 border-dashed rounded-md image-upload-box"
@@ -161,7 +161,7 @@
                 class="absolute opacity-100 preview-logo"
                 style="max-height: 80%; animation: fadeIn 2s ease"
               />
-              <div v-else class="flex flex-col items-center">
+              <div v-if="!previewReceipt" class="flex flex-col items-center">
                 <cloud-upload-icon
                   class="h-5 mb-2 text-xl leading-6 text-gray-400"
                 />
@@ -174,6 +174,12 @@
                 </p>
               </div>
             </div>
+
+            <iframe
+                v-if="previewReceiptFile"
+                :src="previewReceiptFile"
+                style="width:100%"
+              />
 
             <sw-avatar
               :preview-avatar="previewReceipt"
@@ -278,9 +284,11 @@ export default {
       isLoading: false,
       category: null,
       previewReceipt: null,
+      previewReceiptFile: null,
       fileSendUrl: '/api/v1/expenses',
       customer: null,
       fileObject: null,
+      receiptType: ''
     }
   },
 
@@ -385,6 +393,15 @@ export default {
         return this.$t('validation.notes_maxlength')
       }
     },
+
+    receiptError() {
+      if (this.receiptType == '' || this.receiptType == 'application/pdf' || this.receiptType == 'image/png' || this.receiptType == 'image/jpeg' || this.receiptType == 'image/jpg') {
+        return ''
+      }
+      else {
+        return this.$t('validation.invalid_receiptType')
+      }
+    },
   },
 
   watch: {
@@ -427,7 +444,20 @@ export default {
     },
 
     onChange(data) {
-      this.previewReceipt = data.image
+      if(data.file.type == '') {
+        this.receiptType = 'Invalid';
+        return
+      } else {
+        this.receiptType = data.file.type;
+      }
+      if(this.receiptType == 'application/pdf') {
+        this.previewReceipt = '';
+        this.previewReceiptFile = data.image
+      } else {
+        this.previewReceiptFile = '';
+        this.previewReceipt = data.image
+      }
+      
       this.fileObject = data.file
     },
 
@@ -440,7 +470,13 @@ export default {
       }
 
       this.isReceiptAvailable = true
-      this.previewReceipt = res.data.image
+      if(res.data.type == 'application/pdf') {
+        this.previewReceipt = '';
+        this.previewReceiptFile = res.data.image
+      } else {
+        this.previewReceiptFile = '';
+        this.previewReceipt = res.data.image
+      }
     },
 
     setExpenseCustomer(id) {

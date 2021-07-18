@@ -110,6 +110,11 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Estimate::class);
     }
 
+    public function user_companies()
+    {
+        return $this->hasMany(UserCompany::class);
+    }
+
     public function currency()
     {
         return $this->belongsTo(Currency::class);

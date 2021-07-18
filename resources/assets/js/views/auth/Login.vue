@@ -1,5 +1,24 @@
 <template>
   <form id="loginForm" @submit.prevent="validateBeforeSubmit">
+
+    <sw-input-group
+      :label="$tc('settings.language')"
+      :error="languageError"
+    >
+      <sw-select
+        v-model="loginData.language"
+        :options="languages"
+        :invalid="$v.loginData.language.$error"
+        :searchable="true"
+        :show-labels="false"
+        :allow-empty="false"
+        :placeholder="$tc('settings.preferences.select_language')"
+        class="mb-4"
+        label="name"
+        track-by="code"
+      />
+    </sw-input-group>
+
     <sw-input-group
       :label="$t('login.email')"
       :error="emailError"
@@ -16,6 +35,7 @@
         @input="$v.loginData.email.$touch()"
       />
     </sw-input-group>
+    
 
     <sw-input-group
       :label="$t('login.password')"
@@ -68,7 +88,7 @@
 </template>
 
 <script type="text/babel">
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import { EyeIcon, EyeOffIcon } from '@vue-hero-icons/outline'
 import IconFacebook from '../../components/icon/facebook'
 import IconTwitter from '../../components/icon/twitter'
@@ -86,6 +106,7 @@ export default {
   data() {
     return {
       loginData: {
+        language: '',
         email: '',
         password: '',
         remember: '',
@@ -93,10 +114,14 @@ export default {
       submitted: false,
       isLoading: false,
       isShowPassword: false,
+      languages: []
     }
   },
   validations: {
     loginData: {
+      language: {
+        required,
+      },
       email: {
         required,
         email,
@@ -108,6 +133,7 @@ export default {
     },
   },
   computed: {
+    
     emailError() {
       if (!this.$v.loginData.email.$error) {
         return ''
@@ -136,6 +162,15 @@ export default {
       }
     },
 
+    languageError() {
+      if (!this.$v.loginData.language.$error) {
+        return ''
+      }
+      if (!this.$v.loginData.language.required) {
+        return this.$tc('validation.required')
+      }
+    },
+
     getInputType() {
       if (this.isShowPassword) {
         return 'text'
@@ -143,9 +178,22 @@ export default {
       return 'password'
     },
   },
+  mounted() {
+    this.getLanguages();
+  },
   methods: {
     ...mapActions('auth', ['login']),
     ...mapActions('notification', ['showNotification']),
+    ...mapActions(['updateUserSettings']),
+
+    async getLanguages() {
+      let response = await window.axios.get('/api/v1/app/copyrights')
+
+      if (response.data) {
+        this.languages = response.data.languages
+      }
+    },
+
     async validateBeforeSubmit() {
       axios.defaults.withCredentials = true
 
@@ -158,6 +206,7 @@ export default {
 
       try {
         await this.login(this.loginData)
+        
         this.$router.push('/admin/dashboard')
         this.showNotification({
           type: 'success',

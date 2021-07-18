@@ -25,6 +25,10 @@ class UsersTableSeeder extends Seeder
 
         $company = Company::create([
             'name' => 'xyz',
+            'domain' => 'abc.com',
+            'email' => 'xyz@abc.com',
+            'address' => 'Australia',
+            'currency' => 1,
             'unique_hash' => str_random(20),
         ]);
 

@@ -6,6 +6,8 @@ export const currencies = (state) => state.currencies
 
 export const timeZones = (state) => state.timeZones
 
+export const appLogo = (state) => state.appLogo
+
 export const dateFormats = (state) => state.dateFormats
 
 export const fiscalYears = (state) => state.fiscalYears

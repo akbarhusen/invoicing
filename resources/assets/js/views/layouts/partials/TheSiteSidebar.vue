@@ -108,6 +108,11 @@ export default {
             route: '/admin/dashboard',
           },
           {
+            title: 'navigation.company',
+            icon: 'chart-bar-icon',
+            route: '/admin/companies',
+          },
+          {
             title: 'navigation.customers',
             icon: 'user-icon',
             route: '/admin/customers',
@@ -146,11 +151,7 @@ export default {
             icon: 'chart-bar-icon',
             route: '/admin/reports',
           },
-          {
-            title: 'navigation.settings',
-            icon: 'cog-icon',
-            route: '/admin/settings',
-          },
+          
         ],
       ]
 
@@ -160,6 +161,11 @@ export default {
             title: 'navigation.users',
             icon: 'users-icon',
             route: '/admin/users',
+          },
+          {
+            title: 'navigation.settings',
+            icon: 'cog-icon',
+            route: '/admin/settings',
           },
           ...menu[2],
         ]
